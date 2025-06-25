@@ -1,22 +1,60 @@
 import { useState } from "react";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Details, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../api/apiConfig";
+import { emailRegex, passwordRegex } from "../utils/validation";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { signUp } from "../features/auth/authSlice";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    const formdata = new FormData(e.target)
+    const userdata = Object.fromEntries(formdata.entries())
+    if (!userdata.name || !userdata.email || !userdata.password) {
+      toast('Fill all the details')
+      return
+    }
+    if (!emailRegex.test(userdata.email)) {
+      toast('Invalid email format')
+      return
+    }
+    if (!passwordRegex.test(userdata.password)) {
+      toast('Weak password')
+      return
+    }
+
+    try {
+      const response = await api.post('/auth/sign-up', userdata)
+      console.log(response)
+      if (response.status === 201) {
+        toast.success("Signed In successfully")
+        dispatch(signUp(response.data.user))
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong !')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-babyblue flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md space-y-6">
         <h2 className="text-2xl font-bold text-bluegray text-center">Create Account</h2>
 
-        <div className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
             <label className="block text-sm text-bluegray mb-1">Full Name</label>
             <input
               type="text"
               className="w-full border border-bluegray rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-turquoise"
               placeholder="Your name"
+              name="name"
             />
           </div>
 
@@ -26,6 +64,7 @@ export default function SignUp() {
               type="email"
               className="w-full border border-bluegray rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-turquoise"
               placeholder="Your email"
+              name="email"
             />
           </div>
 
@@ -36,6 +75,7 @@ export default function SignUp() {
                 type={showPassword ? "text" : "password"}
                 className="w-full border border-bluegray rounded-md px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-turquoise"
                 placeholder="Create a password"
+                name='password'
               />
               <button
                 type="button"
@@ -47,14 +87,14 @@ export default function SignUp() {
             </div>
           </div>
 
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition">
+          <button type='submit' className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition">
             Sign Up
           </button>
 
           <p className="text-sm text-center text-bluegray mt-2">
             Already have an account? <Link to='/sign-in' className="text-blue-600 hover:underline">Sign in</Link>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );
