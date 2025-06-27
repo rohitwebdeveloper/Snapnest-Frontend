@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from './api/apiConfig'
 import { setUser } from './features/auth/authSlice'
+import Home from './pages/Home'
 
 
 function App() {
@@ -25,8 +26,6 @@ function App() {
       if (!authstate) {
         try {
           const response = await api.get('/auth/me')
-          console.log(response)
-          console.log('app auth runned')
           if (response.status === 200) {
             dispatch(setUser(response.data.user))
             setloading(false)
@@ -48,13 +47,14 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path='' element={<Applayout />} >
+          <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='/album' element={<ProtectedRoute><Album /></ProtectedRoute>} />
           <Route path='/document' element={<ProtectedRoute><Document /></ProtectedRoute>} />
           <Route path='/screenshot' element={<ProtectedRoute><Screenshot /></ProtectedRoute>} />
         </Route>
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/detail' element={<ImageDetail />} />
+        <Route path='/detail/:id' element={<ImageDetail />} />
         <Route path='/account' element={<ProtectedRoute><Account /></ProtectedRoute>} />
       </>
 

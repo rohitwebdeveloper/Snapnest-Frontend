@@ -16,7 +16,7 @@ const Account = () => {
     const [showFeedback, setShowFeedback] = useState(false);
     const [message, setMessage] = useState('');
     const [submitted, setSubmitted] = useState(false);
-
+    const {name, email, avatar} = useSelector((state) => state.auth.user)
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-blue-100 px-6 py-10 text-gray-800">
             <div className="max-w-4xl mx-auto">
@@ -35,8 +35,8 @@ const Account = () => {
                             </button>
                         </div>
                         <div>
-                            <p className="text-2xl font-semibold">Rohit Kushwaha</p>
-                            <p className="text-gray-500 text-sm">rohitkushwaha.developer@gmail.com</p>
+                            <p className="text-2xl font-semibold">{name}</p>
+                            <p className="text-gray-500 text-sm">{email}</p>
                         </div>
                     </div>
 

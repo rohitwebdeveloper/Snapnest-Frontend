@@ -3,17 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = []
 
 export const recentSlice = createSlice({
-    name:'recent',
-    initialState,
-    reducers:{
-        add: (state, action) => {
-          state.push(action.payload)
-        },
-        remove: (state) => {
-           state = []
-        }
-    }
+  name: 'recent',
+  initialState,
+  reducers: {
+    add: (state, action) => {
+      state.push(action.payload)
+    },
+    remove: () => []
+  }
 })
 
-export const {add} = recentSlice.actions
+export const { add, remove } = recentSlice.actions
 export default recentSlice.reducer

@@ -7,7 +7,6 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('protected routes runned')
     if (!auth?.status) {
       navigate('/sign-in')
     }
