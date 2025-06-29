@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { api } from './api/apiConfig'
 import { setUser } from './features/auth/authSlice'
 import Home from './pages/Home'
+import AlbumDetail from './pages/AlbumDetail'
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/detail/:id' element={<ImageDetail />} />
         <Route path='/account' element={<ProtectedRoute><Account /></ProtectedRoute>} />
+        <Route path='/album/:id' element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
       </>
 
     )
