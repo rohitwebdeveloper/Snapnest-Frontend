@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { api } from '../api/apiConfig';
+import toast from 'react-hot-toast';
 
 const AlbumDetail = () => {
   const { albumId } = useParams();
@@ -8,11 +9,16 @@ const AlbumDetail = () => {
 
   useEffect(() => {
     const fetchPhotos = async () => {
+      if(!albumId) {
+        return 
+      }
       try {
         const res = await api.get(`/albums/${albumId}/photos`);
-        setPhotos(res.data.photos);
+        if(res.status === 200) {
+          setPhotos(res.data.photos);
+        }
       } catch (error) {
-        console.error('Failed to fetch album photos:', error);
+        toast(error?.response?.data?.message || 'Internal server error')
       }
     };
 

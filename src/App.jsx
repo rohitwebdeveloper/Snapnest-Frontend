@@ -55,7 +55,7 @@ function App() {
         </Route>
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/detail/:id' element={<ImageDetail />} />
+        <Route path='/photo/:photoId' element={<ImageDetail />} />
         <Route path='/account' element={<ProtectedRoute><Account /></ProtectedRoute>} />
         <Route path='/album/:id' element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
       </>

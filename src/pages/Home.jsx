@@ -3,6 +3,7 @@ import AlbumCard from '../components/AlbumCard'
 import { api } from '../api/apiConfig'
 import toast from 'react-hot-toast'
 import ImageCard from '../components/ImageCard'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
 
@@ -27,11 +28,8 @@ const Home = () => {
                         items,
                     }))
                     setphotoData(result)
-                    console.log('Result:', result)
-
                 }
             } catch (error) {
-                console.log(error)
                 toast.error(error?.response?.data?.message)
             }
         })()
@@ -47,7 +45,7 @@ const Home = () => {
                         <h2>{new Date(item.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' })}</h2>
                          <div className='flex gap-4'>
                         {item?.items?.map((photo, index) => {
-                            return <ImageCard imgurl={photo.url} imgid={item._id} key={index} />
+                            return  <Link key={index} to={`/photo/${photo._id}`}> <ImageCard imgurl={photo.url}  key={index}  /> </Link>
                         })}
                         </div>
                     </div>)
