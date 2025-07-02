@@ -1,10 +1,46 @@
 import React from 'react'
 import DocumentCard from '../components/DocumentCard'
 
-// const imgurls = [
-//   '/identity',
-//   ''
-// ]
+const documentCategories = [
+  {
+  categoryName:'Identity',
+  imgUrl:'/payment.svg',
+  },
+  {
+  categoryName:'Payments',
+  imgUrl:'/payment.svg',
+  },
+  {
+  categoryName:'Certificates',
+  imgUrl:'/certificate.svg',
+  },
+  {
+  categoryName:'Notes',
+  imgUrl:'/notes.svg',
+  },
+  {
+  categoryName:'Receipts',
+  imgUrl:'/receipt.svg',
+  },
+  {
+  categoryName:'Events',
+  imgUrl:'/event.svg',
+  },
+  {
+  categoryName:'Reports',
+  imgUrl:'/report.svg',
+  },
+  {
+  categoryName:'Projects',
+  imgUrl:'/project.svg',
+  },
+  {
+  categoryName:'Legal',
+  imgUrl:'/legal.svg',
+  },
+
+];
+
 
 const Document = () => {
   return (
@@ -13,15 +49,9 @@ const Document = () => {
             <h2 className='text-2xl  '>Document</h2>
         </div>
         <section className='flex flex-wrap gap-8 justify-start p-5'>
-           <DocumentCard imgurl='/identity.svg' documentname='Identity' />
-           <DocumentCard imgurl='/payment.svg' documentname='Payments' />
-           <DocumentCard imgurl='/certificate.svg' documentname='Certificates' />
-           <DocumentCard imgurl='/notes.svg' documentname='Notes' />
-           <DocumentCard imgurl='/receipt.svg' documentname='Receipts' />
-           <DocumentCard imgurl='/event.svg' documentname='Events' />
-           <DocumentCard imgurl='/report.svg' documentname='Reports' />
-           <DocumentCard imgurl='/project.svg' documentname='Projects' />
-           <DocumentCard imgurl='/legal.svg' documentname='Legal' />
+          {documentCategories.map((items, i) => {
+            return <DocumentCard key={i} imgurl={items.imgUrl} documentname={items.categoryName} />
+          })}
         </section>
     </main>
   )

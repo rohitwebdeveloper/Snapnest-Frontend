@@ -91,7 +91,7 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
             </ul>}
         </figure>
         <span> {albumitem?.albumname}</span>
-        <span className='text-gray-600 text-sm'>{albumitem?.albumphotos?.lenght || 0} Items </span>
+        <span className='text-gray-600 text-sm'>{albumitem?.albumphotos?.length} Items </span>
       </div>
 
       {/* Overlay to enter new album name  */}

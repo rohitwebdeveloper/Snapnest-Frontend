@@ -72,7 +72,7 @@ const ImageDetail = () => {
       }
       {
         detailmenuVisible &&
-        <DetailMenu setdetailmenuVisible={setdetailmenuVisible}  />
+        <DetailMenu setdetailmenuVisible={setdetailmenuVisible} photoId={photoId} photoUrl={photo.url} />
       }
     </main>
   )
