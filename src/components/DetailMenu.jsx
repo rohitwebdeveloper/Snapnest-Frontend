@@ -10,16 +10,16 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
   const [albumOverlayvisible, setalbumOverlayvisible] = useState(false)
   const [documentOverlayvisible, setdocumentOverlayvisible] = useState(false)
   const documentCategories = [
-  'Identity',
-  'Payments',
-  'Certificates',
-  'Notes',
-  'Receipts',
-  'Events',
-  'Reports',
-  'Projects',
-  'Legal'
-];
+    'Identity',
+    'Payments',
+    'Certificates',
+    'Notes',
+    'Receipts',
+    'Events',
+    'Reports',
+    'Projects',
+    'Legal'
+  ];
 
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
 
   const addToScreenshot = async () => {
     try {
-      const response = await api.put('/photo/add-screenshot', {photoId})
+      const response = await api.put('/photo/add-screenshot', { photoId })
       if (response.status === 200) {
         setdetailmenuVisible(false)
         setalbumOverlayvisible(false)
@@ -79,8 +79,8 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
 
 
   const addToDocument = async (category) => {
-      try {
-      const response = await api.post('/document/add', {photoId, category})
+    try {
+      const response = await api.post('/document/add', { photoId, category })
       if (response.status === 201) {
         setdetailmenuVisible(false)
         setdocumentOverlayvisible(false)
@@ -93,20 +93,21 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
   }
 
 
-const download = async () => {
-  const response = await fetch(photoUrl);
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
 
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'snapnest-image.jpg';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const download = async () => {
+    const response = await fetch(photoUrl);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
 
-  URL.revokeObjectURL(url);
-};
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'snapnest-image.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
 
 
 
