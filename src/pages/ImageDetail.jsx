@@ -12,8 +12,7 @@ import toast from 'react-hot-toast';
 import { api } from '../api/apiConfig';
 import PhotoInfoSidebar from '../components/PhotoInfoSidebar';
 import ShareOption from '../components/ShareOption';
-import { FlashOnOutlined } from '@mui/icons-material';
-import Overlay from '../components/Overlay';
+
 
 
 const ImageDetail = () => {
@@ -96,10 +95,6 @@ const ImageDetail = () => {
       toast.error(error?.response?.data?.message || 'Internal server error')
     }
   }
-
-
-  // const onShare = async
-
 
 
   return (

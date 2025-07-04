@@ -13,7 +13,7 @@ const Home = () => {
         ; (async () => {
             try {
                 const response = await api.get('/photo/')
-                console.log(response)
+
                 if (response.status === 200) {
                     const groupBydate = response.data.reduce((acc, item) => {
                         const date = item.createdAt.slice(0, 10)
@@ -43,10 +43,10 @@ const Home = () => {
                 {photoData?.map((item, i) => {
                     return (<div key={i} className='flex flex-col gap-4 font-medium text-lg '>
                         <h2>{new Date(item.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' })}</h2>
-                         <div className='flex gap-4'>
-                        {item?.items?.map((photo, index) => {
-                            return  <Link key={index} to={`/photo/${photo._id}`}> <ImageCard imgurl={photo.url}  key={index}  /> </Link>
-                        })}
+                        <div className='flex gap-4'>
+                            {item?.items?.map((photo, index) => {
+                                return <Link key={index} to={`/photo/${photo._id}`}> <ImageCard imgurl={photo.url} key={index} /> </Link>
+                            })}
                         </div>
                     </div>)
                 })}

@@ -14,20 +14,20 @@ const Album = () => {
 
 
   useEffect(() => {
-   ;(async () => {
-    try {
-      const response = await api.get('/album/all')
-      console.log(response)
-      if(response.status === 200) {
-        setallAlbums(response.data.albums)
+    ; (async () => {
+      try {
+        const response = await api.get('/album/all')
+
+        if (response.status === 200) {
+          setallAlbums(response.data.albums)
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || 'Internal server error');
+        console.error(error);
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Internal server error');
-      console.error(error);
-    }
-   })()
+    })()
   }, [])
-  
+
 
 
   const closeCreateAlbum = () => {
@@ -35,7 +35,7 @@ const Album = () => {
   }
 
   // Api call to create new album
- const onCreateAlbum = async (title) => {
+  const onCreateAlbum = async (title) => {
     if (!title.trim()) {
       toast('Enter album title');
       return;
@@ -55,7 +55,7 @@ const Album = () => {
     }
   };
 
-  
+
 
   return (
     <main className='w-full h-[calc(100vh_-_76px)] overflow-auto  relative'    >
@@ -65,7 +65,7 @@ const Album = () => {
       </div>
       <section className='flex flex-wrap gap-8 justify-start p-5'>
         {allAlbums?.map((albumitem, i) => {
-          return <Link to={`/album/${albumitem._id}`} > <AlbumCard albumitem={albumitem} key={i} setallAlbums={setallAlbums} index={i} /> </Link>
+          return <Link to={`/album/${albumitem.albumname}/${albumitem._id}`} > <AlbumCard albumitem={albumitem} key={i} setallAlbums={setallAlbums} index={i} /> </Link>
         })}
       </section>
       {!!showCreateAlbum &&

@@ -16,7 +16,8 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
 
 
   // Handle deletion of Album
-  const deleteAlbum = async (albumId) => {
+  const deleteAlbum = async (albumId, event) => {
+    event.preventDefault()
     try {
       const response = await api.delete('/album/delete', {
         data: { albumId }
@@ -35,7 +36,8 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
 
 
 
-  const renameAlbum = (id) => {
+  const renameAlbum = (id, event) => {
+    event.preventDefault()
     setalbumId(id)
     setrenameOverlayVisible(true)
   }
@@ -73,21 +75,31 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
     setisVisible(false)
   }
 
+
+  const onMore = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setisVisible(true)
+  }
+
   return (
     <>
       <div className='flex flex-col font-medium text-gray-800 mb-2'>
         <figure className="overflow-hidden relative w-52 h-52 p-3 rounded-md bg-gradient-to-b from-blue-100  via-blue-100 to-gray-500">
           {isVisible ? (
-            <CloseIcon className='absolute top-2 right-2 hover:bg-gray-400 rounded-full' onClick={() => setisVisible(false)} />
+            <CloseIcon className='absolute top-2 right-2 hover:bg-gray-400 rounded-full' onClick={(event) => {
+              event.preventDefault()
+              setisVisible(false)
+            }} />
           ) : (
-            <MoreVertIcon className='absolute top-2 right-2 hover:bg-gray-400 rounded-full' onClick={() => setisVisible(true)} />
+            <MoreVertIcon className='absolute top-2 right-2 hover:bg-gray-400 rounded-full' onClick={onMore} />
           )}
 
           <img src="./album.svg" alt="" className="w-full h-full object-cover" />
           {!!isVisible &&
             <ul className='bg-white rounded-md absolute top-9 right-2 text-sm text-gray-700 py-2' >
-              <li onClick={() => renameAlbum(albumitem._id)} className='px-6 py-1.5 hover:bg-blue-50 hover:cursor-pointer'>Rename</li>
-              <li onClick={() => deleteAlbum(albumitem._id)} className='px-6 py-1.5 hover:bg-blue-50 hover:cursor-pointer'>Delete</li>
+              <li onClick={(e) => renameAlbum(albumitem._id, e)} className='px-6 py-1.5 hover:bg-blue-50 hover:cursor-pointer'>Rename</li>
+              <li onClick={(e) => deleteAlbum(albumitem._id, e)} className='px-6 py-1.5 hover:bg-blue-50 hover:cursor-pointer'>Delete</li>
             </ul>}
         </figure>
         <span> {albumitem?.albumname}</span>
@@ -96,7 +108,7 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
 
       {/* Overlay to enter new album name  */}
       {!!renameOverlayVisible && <Overlay onClose={onClose}>
-        <div className="p-4 bg-blue-100 rounded-xl shadow-md w-full max-w-sm mx-auto">
+        <div className="p-4 bg-blue-100 rounded-xl shadow-md w-full max-w-sm mx-auto" onClick={(e) => e.preventDefault()}>
           <h2 className="text-lg font-medium text-gray-800 mb-2">Rename Album</h2>
           <input
             type="text"

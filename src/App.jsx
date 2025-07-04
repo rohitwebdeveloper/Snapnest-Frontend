@@ -14,6 +14,9 @@ import { api } from './api/apiConfig'
 import { setUser } from './features/auth/authSlice'
 import Home from './pages/Home'
 import AlbumDetail from './pages/AlbumDetail'
+import Favourites from './pages/Favourites'
+import DocumentDetail from './pages/DocumentDetail'
+import Recently from './pages/Recently'
 
 
 function App() {
@@ -57,7 +60,10 @@ function App() {
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/photo/:photoId' element={<ImageDetail />} />
         <Route path='/account' element={<ProtectedRoute><Account /></ProtectedRoute>} />
-        <Route path='/album/:id' element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
+        <Route path='/album/:albumname/:id' element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
+        <Route path='/favourites' element={<ProtectedRoute><Favourites /></ProtectedRoute>} />
+        <Route path='/document/:category' element={<ProtectedRoute><DocumentDetail /></ProtectedRoute>} />
+        <Route path='/recently-added' element={<ProtectedRoute><Recently /></ProtectedRoute>} />
       </>
 
     )

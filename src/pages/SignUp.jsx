@@ -31,7 +31,7 @@ export default function SignUp() {
 
     try {
       const response = await api.post('/auth/sign-up', userdata)
-      console.log(response)
+
       if (response.status === 201) {
         toast.success("Signed In successfully")
         dispatch(signUp(response.data.user))
