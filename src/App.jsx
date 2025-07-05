@@ -17,6 +17,7 @@ import AlbumDetail from './pages/AlbumDetail'
 import Favourites from './pages/Favourites'
 import DocumentDetail from './pages/DocumentDetail'
 import Recently from './pages/Recently'
+import Places from './pages/Places'
 
 
 function App() {
@@ -64,6 +65,7 @@ function App() {
         <Route path='/favourites' element={<ProtectedRoute><Favourites /></ProtectedRoute>} />
         <Route path='/document/:category' element={<ProtectedRoute><DocumentDetail /></ProtectedRoute>} />
         <Route path='/recently-added' element={<ProtectedRoute><Recently /></ProtectedRoute>} />
+        <Route path='/places' element={<ProtectedRoute><Places /></ProtectedRoute>} />
       </>
 
     )

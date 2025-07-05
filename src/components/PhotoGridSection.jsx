@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 
-const PhotoGridSection = ({ title, photos = [] }) => {
+const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
   const navigate = useNavigate();
 
   return (
-    <main className="px-6 py-4">
-      <KeyboardBackspaceOutlinedIcon onClick={() => navigate(-1)} className="cursor-pointer" />
+    <main className="px-6">
+      {backbutton && <KeyboardBackspaceOutlinedIcon onClick={() => navigate(-1)} className="cursor-pointer" /> }
       <h2 className="text-2xl font-medium mt-4 mb-6">{title}</h2>
 
       <div className="flex flex-wrap gap-4">
