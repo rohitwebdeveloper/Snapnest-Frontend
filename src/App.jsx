@@ -1,4 +1,9 @@
+import { useEffect, useState } from 'react'
+import { api } from './api/apiConfig'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from './features/auth/authSlice'
 import { createRoutesFromElements, RouterProvider, createBrowserRouter, Route } from 'react-router-dom'
+
 import Applayout from './layouts/Applayout'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
@@ -8,16 +13,13 @@ import Screenshot from './pages/Screenshot'
 import ImageDetail from './pages/ImageDetail'
 import Account from './pages/Account'
 import ProtectedRoute from './components/ProtectedRoute'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { api } from './api/apiConfig'
-import { setUser } from './features/auth/authSlice'
 import Home from './pages/Home'
 import AlbumDetail from './pages/AlbumDetail'
 import Favourites from './pages/Favourites'
 import DocumentDetail from './pages/DocumentDetail'
 import Recently from './pages/Recently'
 import Places from './pages/Places'
+import ForgotPassword from './pages/ForgotPassword'
 
 
 function App() {
@@ -66,6 +68,7 @@ function App() {
         <Route path='/document/:category' element={<ProtectedRoute><DocumentDetail /></ProtectedRoute>} />
         <Route path='/recently-added' element={<ProtectedRoute><Recently /></ProtectedRoute>} />
         <Route path='/places' element={<ProtectedRoute><Places /></ProtectedRoute>} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
       </>
 
     )

@@ -72,7 +72,7 @@ export default function SignIn() {
           </div>
 
           <div className="text-right text-sm">
-            <a href="#" className="text-blue-600 hover:underline">Forgot password?</a>
+            <Link to='/forgot-password' className="text-blue-600 hover:underline">Forgot password?</Link>
           </div>
 
           <button type="submit" className="w-full bg-blue-600 hover:bg-bluegray text-white hover:bg-blue-700 font-semibold py-2 rounded-md transition">
