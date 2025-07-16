@@ -9,9 +9,11 @@ import { signIn } from "../features/auth/authSlice"
 
 export default function SignIn() {
 
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
@@ -24,6 +26,7 @@ export default function SignIn() {
     }
 
     try {
+      setLoading(true)
       const response = await api.post('/auth/sign-in', userdata)
       if (response.status === 200) {
         toast.success("Logged In successfully")
@@ -32,6 +35,8 @@ export default function SignIn() {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong !')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -75,8 +80,8 @@ export default function SignIn() {
             <Link to='/forgot-password' className="text-blue-600 hover:underline">Forgot password?</Link>
           </div>
 
-          <button type="submit" className="w-full bg-blue-600 hover:bg-bluegray text-white hover:bg-blue-700 font-semibold py-2 rounded-md transition">
-            Sign In
+          <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-bluegray text-white hover:bg-blue-700 font-semibold py-2 rounded-md transition">
+            {loading ? 'Wait a moment...' : 'Sign In'}
           </button>
 
           <div className="flex items-center justify-center text-sm text-bluegray">

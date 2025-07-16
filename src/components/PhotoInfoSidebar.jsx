@@ -3,31 +3,23 @@ import { Close, LocationOn, CreateOutlined as EditIcon } from '@mui/icons-materi
 import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import StorageOutlinedIcon from '@mui/icons-material/StorageOutlined';
-import toast from 'react-hot-toast';
-import { api } from '../api/apiConfig';
+import { useUpdatePhotoDetails } from '../hooks/photo/photoMutation';
 
 const PhotoInfoSidebar = ({ photo, onClose }) => {
   const [location, setLocation] = useState(photo.location || '');
   const [description, setDescription] = useState(photo.description || '');
   const [editLocation, setEditLocation] = useState(!photo.location);
   const [editDescription, setEditDescription] = useState(!photo.description);
+  const { mutate } = useUpdatePhotoDetails()
 
-const onSave = async (photoId) => {
-  try {
-    const response = await api.put('/photo/update-detail', { description, location, photoId})
-    console.log(response)
-    if(response.status === 200) {
-      toast.success("Details updated")
-      setDescription(response.data.photo.description)
-      setLocation(response.data.photo.location)
-      setEditDescription(false)
-      setEditLocation(false)
-    }
-  } catch (error) {
-    console.log(error)
-    toast.error(error?.response?.data?.message)
+  const onSave = async (photoId) => {
+    mutate({ description, location, photoId }, {
+      onSuccess: () => {
+        setEditDescription(false)
+        setEditLocation(false)
+      }
+    })
   }
-}
 
   return (
     <aside className="w-[30vw] bg-white p-7 flex flex-col justify-between shadow-md rounded-xl border border-blue-100">
@@ -111,7 +103,7 @@ const onSave = async (photoId) => {
       {/* Save Button */}
       <button
         className="mt-6 w-full bg-blue-500 hover:bg-blue-600  text-white py-2 px-4 rounded-lg text-sm font-medium transition duration-200"
-        onClick={ () => onSave (photo._id)}
+        onClick={() => onSave(photo._id)}
         disabled={!editLocation && !editDescription}
       >
         Save

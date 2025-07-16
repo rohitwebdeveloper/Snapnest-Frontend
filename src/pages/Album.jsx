@@ -1,60 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import AlbumCard from '../components/AlbumCard';
 import Overlay from '../components/Overlay';
 import CreateAlbum from '../components/CreateAlbum';
-import toast from 'react-hot-toast';
-import { api } from '../api/apiConfig'
 import { Link } from 'react-router-dom';
+import { useAllAlbums } from '../hooks/album/albumQuery';
+import { useCreateAlbum } from '../hooks/album/albumMutation';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
+import NoData from '../components/NoData';
+
 
 const Album = () => {
 
   const [showCreateAlbum, setshowCreateAlbum] = useState(false)
-  const [allAlbums, setallAlbums] = useState([])
-
-
-  useEffect(() => {
-    ; (async () => {
-      try {
-        const response = await api.get('/album/all')
-
-        if (response.status === 200) {
-          setallAlbums(response.data.albums)
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.message || 'Internal server error');
-        console.error(error);
-      }
-    })()
-  }, [])
-
-
+  const { isPending, isError, error, data: allAlbum } = useAllAlbums()
+  const { mutate: albumCreate } = useCreateAlbum(setshowCreateAlbum)
 
   const closeCreateAlbum = () => {
     setshowCreateAlbum(!showCreateAlbum)
   }
 
   // Api call to create new album
-  const onCreateAlbum = async (title) => {
-    if (!title.trim()) {
-      toast('Enter album title');
-      return;
-    }
-
-    try {
-      const response = await api.post('/album/create', { albumname: title.trim() });
-      if (response.status === 201) {
-        toast.success('Album created');
-        setallAlbums((preval) => [...preval, response?.data?.album])
-        setshowCreateAlbum(false);
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Failed to create album');
-      console.error(error);
-      setshowCreateAlbum(false);
-    }
+  const onCreateAlbum = (title) => {
+    albumCreate(title)
   };
 
+
+  if (isPending) return <Loader />
+  if (isError) return <Error errorMessage={error?.message || 'Internal Server Error'} />
 
 
   return (
@@ -64,9 +38,12 @@ const Album = () => {
         <div className='text-gray-600' onClick={() => setshowCreateAlbum(true)} > <AddToPhotosIcon /> Create Album</div>
       </div>
       <section className='flex flex-wrap gap-8 justify-start p-5'>
-        {allAlbums?.map((albumitem, i) => {
-          return <Link to={`/album/${albumitem.albumname}/${albumitem._id}`} > <AlbumCard albumitem={albumitem} key={i} setallAlbums={setallAlbums} index={i} /> </Link>
-        })}
+        {allAlbum.length ? (
+          allAlbum?.map((albumitem, i) => {
+            return <Link key={i} to={`/album/${albumitem.albumname}/${albumitem._id}`} > <AlbumCard albumitem={albumitem} key={i} index={i} /> </Link>
+          })) : (
+          <NoData message='No Albums !' />
+        )}
       </section>
       {!!showCreateAlbum &&
         <Overlay onClose={closeCreateAlbum}>

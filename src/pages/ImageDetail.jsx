@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
@@ -8,11 +8,12 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
 import DetailMenu from '../components/DetailMenu';
 import { useNavigate, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { api } from '../api/apiConfig';
 import PhotoInfoSidebar from '../components/PhotoInfoSidebar';
 import ShareOption from '../components/ShareOption';
-
+import { usePhotoDetails } from '../hooks/photo/usePhotoDetails';
+import { useAddToFavourite, useDeletePhoto, useRemoveFromFavourite } from '../hooks/photo/photoMutation';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
 
 
 const ImageDetail = () => {
@@ -21,80 +22,17 @@ const ImageDetail = () => {
   const [detailmenuVisible, setdetailmenuVisible] = useState(false)
   const [shareVisible, setshareVisible] = useState(false)
   const navigate = useNavigate()
-  const [photo, setphoto] = useState(null)
   const { photoId } = useParams()
 
+  const { data: photo, isPending, isError, error } = usePhotoDetails(photoId);
+  const { mutate: deletePhoto } = useDeletePhoto()
+  const { mutate: addToFavourite } = useAddToFavourite()
+  const { mutate: removeFromFavourite } = useRemoveFromFavourite()
 
-  useEffect(() => {
-    ; (async () => {
-      if (!photoId) {
-        navigate(-1)
-        return
-      }
+  const onClose = () => setinfovisible(false)
 
-      try {
-        const response = await api.get(`/photo/${photoId}`);
-        if (response.status === 200) {
-          setphoto(response.data.photo);
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.message || 'Internal server error')
-      }
-    })()
-
-  }, [photoId]);
-
-
-  const onClose = () => {
-    setinfovisible(false)
-  }
-
-
-  const deletePhoto = async () => {
-    if (!photoId) {
-      toast('Photo is required to delete')
-    }
-    try {
-      const response = await api.delete(`photo/delete/${photoId}`)
-      if (response.status === 200) {
-        toast.success('Photo deleted')
-        navigate(-1)
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
-  }
-
-
-  const addToFavourite = async () => {
-    try {
-      const response = await api.patch(`/photo/${photoId}/favourite`)
-      console.log(response)
-      if (response.status === 200) {
-        setphoto(response.data.photo)
-        toast.success('Add to favourites')
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
-  }
-
-
-  const removeFromFavourite = async () => {
-    try {
-      const response = await api.patch(`/photo/${photoId}/unfavourite`)
-      console.log(response)
-      if (response.status === 200) {
-        setphoto(response.data.photo)
-        toast.success('Removed from favourites')
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
-  }
+    if (isPending) return <Loader/>
+    if (isError) return <Error errorMessage={error?.message || 'Internal Server Error'}/>
 
 
   return (
@@ -102,11 +40,11 @@ const ImageDetail = () => {
       <div className='w-full' >
         <div className='flex justify-between px-4 text-white py-6 mb-10'>
           <KeyboardBackspaceOutlinedIcon style={{ fontSize: '25px' }} onClick={() => navigate(-1)} />
-          <div className='flex gap-5 '>
+          <div className='flex gap-5 hover:cursor-pointer '>
             <ShareOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setshareVisible(!shareVisible)} />
             <InfoOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setinfovisible(!infovisible)} />
-            {photo?.isFavourite ? <StarIcon style={{ fontSize: '25px' }} onClick={removeFromFavourite} /> : <StarBorderOutlinedIcon style={{ fontSize: '25px' }} onClick={addToFavourite} />}
-            <DeleteForeverOutlinedIcon style={{ fontSize: '25px' }} onClick={deletePhoto} />
+            {photo?.isFavourite ? <StarIcon style={{ fontSize: '25px' }} onClick={() => removeFromFavourite(photoId)} /> : <StarBorderOutlinedIcon style={{ fontSize: '25px' }} onClick={() => addToFavourite(photoId)} />}
+            <DeleteForeverOutlinedIcon style={{ fontSize: '25px' }} onClick={() => deletePhoto(photoId)} />
             <MoreVertOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setdetailmenuVisible(!detailmenuVisible)} />
           </div>
         </div>
@@ -121,7 +59,7 @@ const ImageDetail = () => {
 
       {detailmenuVisible && <DetailMenu setdetailmenuVisible={setdetailmenuVisible} photoId={photoId} photoUrl={photo.url} />}
 
-      {shareVisible &&  <ShareOption imageUrl={photo?.url} onClose={setshareVisible} /> }
+      {shareVisible && <ShareOption imageUrl={photo?.url} onClose={setshareVisible} />}
 
     </main>
   )

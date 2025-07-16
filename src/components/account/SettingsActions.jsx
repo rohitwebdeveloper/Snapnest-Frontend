@@ -3,7 +3,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 
-const SettingsActions = ({ onChangePassword, onLogout, onDeleteAccount, onFeedback }) => {
+const SettingsActions = ({ onChangePassword, onLogout, onDeleteAccount, loading }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
       <button
@@ -15,6 +15,7 @@ const SettingsActions = ({ onChangePassword, onLogout, onDeleteAccount, onFeedba
       <button
         className="w-full p-4 rounded-xl bg-blue-50 hover:bg-blue-100 transition shadow-sm text-left text-sm font-medium text-blue-800"
         onClick={onLogout}
+        disabled={loading}
       >
         <LogoutIcon /> Logout
       </button>

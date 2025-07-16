@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from './features/auth/authSlice'
 import { createRoutesFromElements, RouterProvider, createBrowserRouter, Route } from 'react-router-dom'
 
+
+
 import Applayout from './layouts/Applayout'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
@@ -20,6 +22,9 @@ import DocumentDetail from './pages/DocumentDetail'
 import Recently from './pages/Recently'
 import Places from './pages/Places'
 import ForgotPassword from './pages/ForgotPassword'
+import NotFound from './components/NotFound'
+import Loader from './components/Loader'
+
 
 
 function App() {
@@ -27,6 +32,10 @@ function App() {
   const authstate = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
   const [loading, setloading] = useState(true)
+
+
+
+
 
   useEffect(() => {
     ; (async () => {
@@ -47,7 +56,7 @@ function App() {
   }, [authstate, dispatch])
 
 
-  // if(loading) return 
+ 
 
 
   const router = createBrowserRouter(
@@ -57,18 +66,19 @@ function App() {
           <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='/album' element={<ProtectedRoute><Album /></ProtectedRoute>} />
           <Route path='/document' element={<ProtectedRoute><Document /></ProtectedRoute>} />
-          <Route path='/screenshot' element={<ProtectedRoute><Screenshot /></ProtectedRoute>} />
         </Route>
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/photo/:photoId' element={<ImageDetail />} />
         <Route path='/account' element={<ProtectedRoute><Account /></ProtectedRoute>} />
         <Route path='/album/:albumname/:id' element={<ProtectedRoute><AlbumDetail /></ProtectedRoute>} />
+        <Route path='/screenshot' element={<ProtectedRoute><Screenshot /></ProtectedRoute>} />
         <Route path='/favourites' element={<ProtectedRoute><Favourites /></ProtectedRoute>} />
         <Route path='/document/:category' element={<ProtectedRoute><DocumentDetail /></ProtectedRoute>} />
         <Route path='/recently-added' element={<ProtectedRoute><Recently /></ProtectedRoute>} />
         <Route path='/places' element={<ProtectedRoute><Places /></ProtectedRoute>} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/*' element={<NotFound />} />
       </>
 
     )
@@ -76,7 +86,7 @@ function App() {
 
   return (
     <>
-      {loading ? (<h1 className='text-3xl text-black text-center'>Loading....</h1>) : (
+      {loading ? (<Loader/>) : (
         <RouterProvider router={router} />
       )}
     </>

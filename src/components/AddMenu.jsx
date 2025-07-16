@@ -1,42 +1,20 @@
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CloseIcon from '@mui/icons-material/Close';
-import { api } from '../api/apiConfig'
-import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { add } from '../features/image/recentSlice';
+import { useUploadPhoto } from '../hooks/photo/photoMutation';
 
 
 export default function AddMenu({ onClose }) {
 
   const dispatch = useDispatch()
+  const { mutate: uploadphoto } = useUploadPhoto(onClose, dispatch, add)
 
   const fileuploadchange = async (e) => {
     const file = e.target.files[0]
-
     if (file) {
-      const formData = new FormData();
-      formData.append('photo', file);
-      formData.append('category', 'photos')
-
-      try {
-        const response = await api.post('/photo/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true
-        })
-        console.log(response)
-
-        if(response.status === 201) {
-          toast.success('Uploaded Successfully')
-          dispatch(add(response.data.newPhoto))
-          onClose()
-        }
-
-      } catch (error) {
-        toast.error(error?.response?.data?.message || 'Something went wrong !')
-      }
+      uploadphoto(file)
     }
   }
 
@@ -51,9 +29,9 @@ export default function AddMenu({ onClose }) {
           </label>
         </li>
 
-        <li className="px-5 py-3 rounded-md  flex items-center gap-4 hover:bg-blue-100 hover:text-black cursor-pointer transition">
+        {/* <li className="px-5 py-3 rounded-md  flex items-center gap-4 hover:bg-blue-100 hover:text-black cursor-pointer transition">
           <CollectionsBookmarkIcon />  Create Album
-        </li>
+        </li> */}
       </ul>
     </div>
   );

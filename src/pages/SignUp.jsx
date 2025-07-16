@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { signUp } from "../features/auth/authSlice";
 
 export default function SignUp() {
+  const [loading, setloading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -30,6 +31,7 @@ export default function SignUp() {
     }
 
     try {
+      setloading(true)
       const response = await api.post('/auth/sign-up', userdata)
 
       if (response.status === 201) {
@@ -39,6 +41,8 @@ export default function SignUp() {
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong !')
+    } finally {
+      setloading(false)
     }
   }
 
@@ -87,8 +91,8 @@ export default function SignUp() {
             </div>
           </div>
 
-          <button type='submit' className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition">
-            Sign Up
+          <button type='submit' disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition">
+            {loading ? 'Wait a moment...' : 'Sign Up'}
           </button>
 
           <p className="text-sm text-center text-bluegray mt-2">

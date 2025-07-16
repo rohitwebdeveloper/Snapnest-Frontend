@@ -1,35 +1,21 @@
-import React, {useEffect, useState} from 'react'
 import PhotoGridSection from '../components/PhotoGridSection'
-import { api } from '../api/apiConfig'
-import toast from 'react-hot-toast'
+import { useFavourites } from '../hooks/photo/useFavourites'
+import Loader from '../components/Loader'
+import Error from '../components/Error'
 
- 
+
 
 
 const Favourites = () => {
- 
-  const [favourite, setfavourite] = useState([])
 
-   useEffect(() => {
-    const fetchFavourites = async () => {
-      try {
-        const response = await api.get(`photo/favourite/all`);
+  const { isPending, isError, error, data: favourite } = useFavourites()
 
-        if(response.status === 200) {
-          setfavourite(response.data.favourites);
-        }
-      } catch (error) {
-        console.log(error)
-        toast(error?.response?.data?.message || 'Internal server error')
-      }
-    };
-
-    fetchFavourites();
-  }, []);
+  if (isPending) return <Loader />
+  if (isError) return <Error errorMessage={error?.message || 'Internal Server Error'} />
 
 
   return (
-   <PhotoGridSection photos={favourite} title='Favourites' />
+    <PhotoGridSection photos={favourite} title='Favourites' />
   )
 }
 

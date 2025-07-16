@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const CreateAlbum = ({ onCreate }) => {
   const [title, setTitle] = useState("");
-  const [success, setSuccess] = useState(false);
 
 
   return (
@@ -23,12 +22,6 @@ const CreateAlbum = ({ onCreate }) => {
       >
         Save Album
       </button>
-
-      {success && (
-        <p className="text-green-600 text-sm font-medium">
-          Album created successfully!
-        </p>
-      )}
     </div>
   );
 };

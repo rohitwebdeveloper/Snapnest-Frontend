@@ -14,20 +14,19 @@ import ChangePasswordOverlay from '../components/account/ChangePasswordOverlay';
 import DeleteAccountOverlay from '../components/account/DeleteAccountOverlay';
 
 const Account = () => {
+    const { name, email, avatar } = useSelector((state) => state.auth.user);
     const [showUploadOverlay, setShowUploadOverlay] = useState(false);
     const [showPasswordOverlay, setShowPasswordOverlay] = useState(false);
     const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
-    const [message, setMessage] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [isLoading, setisLoading] = useState(false);
     const [file, setFile] = useState(null);
-
-    const { name, email, avatar } = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
 
     const onLogout = async () => {
         try {
+            setisLoading(true)
             const response = await api.post('/auth/logout');
             if (response.status === 200) {
                 dispatch(logout());
@@ -36,6 +35,8 @@ const Account = () => {
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Internal server error');
+        } finally {
+            setisLoading(false)
         }
     };
 
@@ -58,20 +59,24 @@ const Account = () => {
             toast('Both passwords do not match');
             return;
         }
-        try {
-            const response = await api.post('/auth/reset-password', passwordData);
-            if (response.status === 200) {
-                toast.success('Password updated successfully');
-                setShowPasswordOverlay(false);
+        setisLoading(true)
+        await toast.promise(
+            api.post('/auth/reset-password', passwordData),
+            {
+                loading: 'Updating password...',
+                success: (res) => {
+                    setShowPasswordOverlay(false);
+                    return 'Password updated successfully';
+                },
+                error: (err) => err?.response?.data?.message || 'Internal server error',
             }
-        } catch (error) {
-            toast.error(error?.response?.data?.message || 'Internal server error');
-        }
+        ).finally(() => setisLoading(false))
     };
 
 
     const onDeleteAccount = async () => {
         try {
+            setisLoading(true)
             const response = await api.post('/auth/delete-account');
             if (response.status === 200) {
                 toast.success('Account deleted successfully');
@@ -79,6 +84,8 @@ const Account = () => {
             }
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Internal server error');
+        } finally {
+            setisLoading(false)
         }
     };
 
@@ -88,21 +95,27 @@ const Account = () => {
             toast('Please upload profile image');
             return;
         }
+
         const formdata = new FormData();
         formdata.append('photo', file);
-        try {
-            const response = await api.post('/user/upload-profile-image', formdata, {
+        setisLoading(true)
+        await toast.promise(
+            api.post('/user/upload-profile-image', formdata, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 withCredentials: true,
-            });
-            if (response.status === 200) {
-                toast.success('Profile photo changed');
-                dispatch(setUser(response.data.user));
+            }),
+            {
+                loading: 'Uploading profile photo...',
+                success: (res) => {
+                    dispatch(setUser(res.data.user));
+                    setShowUploadOverlay(false)
+                    return 'Profile photo changed';
+                },
+                error: (err) => err?.response?.data?.message || 'Internal server error',
             }
-        } catch (error) {
-            toast.error(error?.response?.data?.message || 'Internal server error');
-        }
+        ).finally(() => setisLoading(false))
     };
+
 
 
     return (
@@ -115,7 +128,7 @@ const Account = () => {
                         onChangePassword={() => setShowPasswordOverlay(true)}
                         onLogout={onLogout}
                         onDeleteAccount={() => setShowDeleteOverlay(true)}
-                        onFeedback={() => setShowFeedback(true)}
+                        loading={isLoading}
                     />
                 </div>
             </div>
@@ -124,16 +137,19 @@ const Account = () => {
                 onClose={() => setShowUploadOverlay(false)}
                 onFileChange={(e) => setFile(e.target.files[0])}
                 onSave={onSave}
+                loading={isLoading}
             />
             <ChangePasswordOverlay
                 open={showPasswordOverlay}
                 onClose={() => setShowPasswordOverlay(false)}
                 onSubmit={onUpdatePassword}
+                loading={isLoading}
             />
             <DeleteAccountOverlay
                 open={showDeleteOverlay}
                 onClose={() => setShowDeleteOverlay(false)}
                 onConfirmDelete={onDeleteAccount}
+                loading={isLoading}
             />
         </div>
     );

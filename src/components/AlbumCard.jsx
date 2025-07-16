@@ -1,73 +1,46 @@
 import React, { useState } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CloseIcon from '@mui/icons-material/Close';
-import toast from 'react-hot-toast';
-import { api } from '../api/apiConfig';
 import Overlay from './Overlay';
-// import RenameAlbum from './RenameAlbum';
+import { useDeleteAlbum } from '../hooks/album/albumMutation';
+import { useRenameAlbum } from '../hooks/album/albumMutation';
 
 
-const AlbumCard = ({ albumitem, setallAlbums, index }) => {
+
+const AlbumCard = ({ albumitem, index }) => {
 
   const [isVisible, setisVisible] = useState(false)
   const [albumId, setalbumId] = useState('')
   const [newname, setNewname] = useState('');
   const [renameOverlayVisible, setrenameOverlayVisible] = useState(false)
+  const { mutate: albumDelete } = useDeleteAlbum(setisVisible)
+  const { mutate: albumRename } = useRenameAlbum(setisVisible)
 
 
   // Handle deletion of Album
-  const deleteAlbum = async (albumId, event) => {
+  const deleteAlbum = (albumId, event) => {
     event.preventDefault()
-    try {
-      const response = await api.delete('/album/delete', {
-        data: { albumId }
-      });
-
-      if (response.status === 200) {
-        setallAlbums((preval) => preval.filter((item) => item._id !== albumId));
-        setisVisible(false)
-        toast.success('Album deleted successfully');
-      }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Internal server error');
-      console.error(error);
-    }
+    event.stopPropagation()
+    albumDelete(albumId)
   };
-
-
 
   const renameAlbum = (id, event) => {
     event.preventDefault()
+    event.stopPropagation()
     setalbumId(id)
     setrenameOverlayVisible(true)
   }
 
-
-
-  const handleRename = async () => {
-    if (!newname) {
-      toast('Enter new album name')
-      return
-    }
-    try {
-      const response = await api.put('/album/rename', { albumId, newname });
-
-      if (response.status === 200) {
-        setallAlbums((prevAlbums) =>
-          prevAlbums.map((album, i) => i === index ? { ...album, albumname: newname } : album)
-        );
-
-        setisVisible(false)
-        setrenameOverlayVisible(false)
-        setNewname('')
-        toast.success('Album renamed successfully');
+  const handleRename = (event) => {
+     event.preventDefault()
+    albumRename({ albumId, newname }, {
+      onSuccess: () => {
+        setisVisible(false);
+        setrenameOverlayVisible(false);
+        setNewname('');
       }
-    } catch (error) {
-      toast.error(error?.response?.data?.message || 'Internal server error');
-      console.error(error);
-    }
+    });
   };
-
 
 
   const onClose = () => {
@@ -81,6 +54,7 @@ const AlbumCard = ({ albumitem, setallAlbums, index }) => {
     event.stopPropagation()
     setisVisible(true)
   }
+
 
   return (
     <>

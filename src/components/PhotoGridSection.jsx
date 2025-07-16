@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
+import NoData from './NoData';
 
 const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
   const navigate = useNavigate();
 
   return (
     <main className="px-6">
-      {backbutton && <KeyboardBackspaceOutlinedIcon onClick={() => navigate(-1)} className="cursor-pointer" /> }
+      {backbutton && <KeyboardBackspaceOutlinedIcon onClick={() => navigate(-1)} className="cursor-pointer" />}
       <h2 className="text-2xl font-medium mt-4 mb-6">{title}</h2>
 
       <div className="flex flex-wrap gap-4">
-        {photos.map((item, i) => {
+        {photos.length !== 0 ? (photos.map((item, i) => {
           const photo = item.photo || item;
           const id = photo._id || i;
           const url = photo.url;
@@ -24,7 +25,7 @@ const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
             : '';
 
           return (
-            <Link key={id} to={`/photo/${id}`}>
+            <Link key={i} to={`/photo/${id}`}>
               {date && (
                 <div className="font-medium text-gray-700 mb-1">{date}</div>
               )}
@@ -37,7 +38,9 @@ const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
               </div>
             </Link>
           );
-        })}
+        })) : (
+          <NoData message={`No ${title} !`} />
+        )}
       </div>
     </main>
   );

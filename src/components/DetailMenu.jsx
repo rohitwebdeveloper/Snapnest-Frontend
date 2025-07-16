@@ -1,98 +1,53 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
-import toast from 'react-hot-toast';
-import { api } from '../api/apiConfig';
 import Overlay from './Overlay'
+import { useAddToAlbum } from '../hooks/album/albumMutation';
+import { useAddToScreenshot } from '../hooks/photo/photoMutation';
+import { useAddToDocument } from '../hooks/document/documentMutation';
+import { useAllAlbums } from '../hooks/album/albumQuery';
+
 
 const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
 
-  const [allAlbums, setallAlbums] = useState([])
   const [albumOverlayvisible, setalbumOverlayvisible] = useState(false)
   const [documentOverlayvisible, setdocumentOverlayvisible] = useState(false)
-  const documentCategories = [
-    'Identity',
-    'Payments',
-    'Certificates',
-    'Notes',
-    'Receipts',
-    'Events',
-    'Reports',
-    'Projects',
-    'Legal'
-  ];
+  const documentCategories = ['Identity', 'Payments', 'Certificates', 'Notes', 'Receipts', 'Events', 'Reports', 'Projects', 'Legal'];
+
+  const { isPending, isError, error, data: allAlbums } = useAllAlbums()
+  const { mutate: addPhotoToAlbum } = useAddToAlbum()
+  const { mutate: addPhotoToScreenshot } = useAddToScreenshot()
+  const { mutate: addPhotoToDocument } = useAddToDocument()
+
+  const closeAlbumOverlay = () => setalbumOverlayvisible(false)
+  const closeDocumentOverlay = () => setdocumentOverlayvisible(false)
 
 
-  useEffect(() => {
-    ; (async () => {
-      try {
-        const response = await api.get('/album/all')
-        console.log(response)
-        if (response.status === 200) {
-          setallAlbums(response.data.albums)
-        }
-      } catch (error) {
-        toast.error(error?.response?.data?.message || 'Internal server error');
-        console.error(error);
-      }
-    })()
-  }, [])
-
-
-  const closeAlbumOverlay = () => {
-    setalbumOverlayvisible(false)
-  }
-
-  const closeDocumentOverlay = () => {
-    setdocumentOverlayvisible(false)
-  }
-
-
-  const addToAlbum = async (albumId) => {
-    try {
-      const response = await api.put('/album/add-photo', { albumId, photoId })
-      if (response.status === 200) {
+  const addToAlbum = (albumId) => {
+    addPhotoToAlbum({ albumId, photoId }, {
+      onSuccess: () => {
         setdetailmenuVisible(false)
         setalbumOverlayvisible(false)
-        toast.success('Image added to album')
       }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
+    })
   }
-
 
   const addToScreenshot = async () => {
-    try {
-      const response = await api.put('/photo/add-screenshot', { photoId })
-      if (response.status === 200) {
+    addPhotoToScreenshot(photoId, {
+      onSuccess: () => {
         setdetailmenuVisible(false)
         setalbumOverlayvisible(false)
-        toast.success('Added to screenshots')
       }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
+    })
   }
-
-
 
   const addToDocument = async (category) => {
-    try {
-      const response = await api.post('/document/add', { photoId, category })
-      if (response.status === 201) {
+    addPhotoToDocument({ photoId, category }, {
+      onSuccess: () => {
         setdetailmenuVisible(false)
         setdocumentOverlayvisible(false)
-        toast.success('Added to document')
       }
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || 'Internal server error')
-    }
+    })
   }
-
-
 
   const download = async () => {
     const response = await fetch(photoUrl);
@@ -111,8 +66,6 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
 
 
 
-
-
   return (
     <>
       <ul className='rounded-md bg-white text-gray-800  w-52 font-medium absolute right-1 top-20 '>
@@ -127,7 +80,10 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
       {!!albumOverlayvisible &&
         <Overlay title='Add to' onClose={closeAlbumOverlay} >
           <section className=' flex flex-col items-start overflow-auto h-56 '>
-            {allAlbums?.map((albumitem, i) => {
+            {isPending && <h2 className='text-center font-medium text-gray-800'>Just a moment...</h2>}
+            {isError && <h2 className='text-center font-medium text-gray-800'>Failed to get albums</h2>}
+            {allAlbums.lenght === 0 && <h2 className='text-center font-medium text-gray-800'>No Albums !</h2>}
+            {allAlbums.lenght !== 0 && allAlbums?.map((albumitem, i) => {
               return <button onClick={() => addToAlbum(albumitem._id)} key={i} className='hover:bg-gray-200 w-full text-base font-medium text-gray-700 text-left px-11 py-1' > {albumitem.albumname} <br />
                 <span className='text-gray-600 text-sm'>{albumitem.createdAt.slice(0, 10)}</span>
               </button>

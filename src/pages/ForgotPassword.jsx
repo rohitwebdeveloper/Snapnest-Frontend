@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { api } from '../api/apiConfig';
 import { passwordRegex } from '../utils/validation';
 import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
+  const [loading, setloading] = useState(false)
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -19,6 +20,7 @@ const ForgotPassword = () => {
   const handleSendOtp = async () => {
     if (!email.trim()) return toast.error('Enter your email');
     try {
+      setloading(true)
       const res = await api.post('/auth/forgot-password', { email });
       if (res.status === 200) {
         if (intervalRef.current) clearInterval(intervalRef.current)
@@ -39,6 +41,8 @@ const ForgotPassword = () => {
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Error sending OTP');
       setStep(1)
+    } finally {
+      setloading(false)
     }
   };
 
@@ -46,6 +50,7 @@ const ForgotPassword = () => {
   const handleVerifyOtp = async () => {
     if (!otp.trim()) return toast.error('Enter OTP');
     try {
+      setloading(true)
       const res = await api.post('/auth/verify-otp', { email, otp });
       if (res.status === 200) {
         toast.success('OTP verified');
@@ -53,6 +58,8 @@ const ForgotPassword = () => {
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Invalid OTP');
+    } finally {
+      setloading(false)
     }
   };
 
@@ -61,6 +68,7 @@ const ForgotPassword = () => {
     if (!newPassword.trim() || !confirmpassword.trim()) return toast.error('Enter both fields');
     if (!passwordRegex.test(confirmpassword)) return toast.error('Enter strong password')
     try {
+      setloading(true)
       const res = await api.post('/auth/reset-password', { email, confirmpassword });
       if (res.status === 200) {
         toast.success('Password updated successfully');
@@ -68,6 +76,8 @@ const ForgotPassword = () => {
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || 'Failed to reset password');
+    } finally {
+      setloading(false)
     }
   };
 
@@ -88,9 +98,10 @@ const ForgotPassword = () => {
             />
             <button
               onClick={handleSendOtp}
+              disabled={loading}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
             >
-              Send OTP
+             {loading ? 'Sending... OTP' : 'Send OTP'} 
             </button>
           </div>
         )}
@@ -112,9 +123,10 @@ const ForgotPassword = () => {
             </div>
             <button
               onClick={handleVerifyOtp}
+              disabled={loading}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
             >
-              Verify OTP
+              {loading ? 'Verifying...' : 'Verify OTP'}
             </button>
           </div>
         )}
@@ -138,9 +150,10 @@ const ForgotPassword = () => {
             />
             <button
               onClick={handleResetPassword}
+              disabled={loading}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
             >
-              Reset Password
+             {loading ? 'Processing...' : 'Reset Password'}
             </button>
           </div>
         )}

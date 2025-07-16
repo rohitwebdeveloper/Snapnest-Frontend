@@ -5,13 +5,18 @@ import App from './App.jsx'
 import ToasterProvider from './components/Toaster.jsx'
 import { Provider } from 'react-redux'
 import { store } from './store.js'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store}>
-      <ToasterProvider>
-        <App />
-      </ToasterProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient} >
+      <Provider store={store}>
+        <ToasterProvider>
+          <App />
+        </ToasterProvider>
+      </Provider>
+    </QueryClientProvider>
   </StrictMode>,
 )
