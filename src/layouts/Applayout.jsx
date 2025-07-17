@@ -7,7 +7,7 @@ const Applayout = () => {
     return (
         <>
             <Header />
-            <div className='flex gap-4'>
+            <div className='flex gap-4 bg-white dark:bg-gray-900'>
                 <SideBar />
                 <Outlet />
             </div>

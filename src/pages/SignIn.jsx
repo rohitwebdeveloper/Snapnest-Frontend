@@ -40,6 +40,11 @@ export default function SignIn() {
     }
   }
 
+  const SignInWithGoogle = (e) => {
+    e.preventDefault()
+
+  }
+
 
   return (
     <div className="min-h-screen bg-babyblue flex items-center justify-center px-4">
@@ -88,7 +93,7 @@ export default function SignIn() {
             or
           </div>
 
-          <button className="w-full border border-bluegray text-bluegray font-medium py-2 rounded-md flex items-center justify-center gap-2 hover:bg-babyblue transition">
+          <button onClick={SignInWithGoogle} className="w-full border border-bluegray text-bluegray font-medium py-2 rounded-md flex items-center justify-center gap-2 hover:bg-babyblue transition">
             <Google fontSize="small" />
             Sign in with Google
           </button>

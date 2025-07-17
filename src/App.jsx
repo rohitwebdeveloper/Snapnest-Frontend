@@ -24,6 +24,8 @@ import Places from './pages/Places'
 import ForgotPassword from './pages/ForgotPassword'
 import NotFound from './components/NotFound'
 import Loader from './components/Loader'
+import HelpAndFeedback from './pages/HelpAndFeedback'
+
 
 
 
@@ -32,9 +34,7 @@ function App() {
   const authstate = useSelector((state) => state.auth.status)
   const dispatch = useDispatch()
   const [loading, setloading] = useState(true)
-
-
-
+  const thememode = useSelector((state) => state.theme)
 
 
   useEffect(() => {
@@ -56,7 +56,11 @@ function App() {
   }, [authstate, dispatch])
 
 
- 
+  useEffect(() => {
+    document.querySelector('html').classList.add(thememode)
+  }, [thememode])
+
+
 
 
   const router = createBrowserRouter(
@@ -78,6 +82,7 @@ function App() {
         <Route path='/recently-added' element={<ProtectedRoute><Recently /></ProtectedRoute>} />
         <Route path='/places' element={<ProtectedRoute><Places /></ProtectedRoute>} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/help-feedback' element={<HelpAndFeedback />} />
         <Route path='/*' element={<NotFound />} />
       </>
 
@@ -86,7 +91,7 @@ function App() {
 
   return (
     <>
-      {loading ? (<Loader/>) : (
+      {loading ? (<Loader />) : (
         <RouterProvider router={router} />
       )}
     </>
