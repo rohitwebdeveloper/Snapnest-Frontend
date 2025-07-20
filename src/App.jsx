@@ -47,7 +47,6 @@ function App() {
             setloading(false)
           }
         } catch (error) {
-          console.log(error)
         } finally {
           setloading(false)
         }

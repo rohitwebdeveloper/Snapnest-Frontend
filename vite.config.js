@@ -9,4 +9,11 @@ export default defineConfig({
     tailwindcss()
 
   ],
+  server: {
+    headers: {
+      // This disables cross-origin isolation in dev (avoids postMessage blocking warning)
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+      'Cross-Origin-Embedder-Policy': 'unsafe-none'
+    }
+  }
 })

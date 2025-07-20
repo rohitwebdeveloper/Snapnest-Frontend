@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Visibility, VisibilityOff, Google } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/apiConfig";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { signIn } from "../features/auth/authSlice"
+import { GoogleLogin } from "@react-oauth/google";
 
 
 export default function SignIn() {
@@ -13,7 +14,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const scopes = ['openid', 'email', 'profile'].join(' ');
+
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
@@ -41,10 +42,17 @@ export default function SignIn() {
   }
 
 
-  const SignInWithGoogle = (e) => {
-    e.preventDefault()
-    const url = `https://accounts.google.com/o/oauth2/auth?client_id=${import.meta.env.VITE_OAUTH_CLIENTID}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}&scope=${scopes}&response_type=code`
-    window.location.href = url
+  const GoogleLoginSuccess = async (credRes) => {
+    try {
+      const response = await api.post('/auth/google/sign-in', { credRes })
+      if (response.status === 200) {
+        toast.success("Logged In successfully")
+        dispatch(signIn(response.data.userdata))
+        navigate('/')
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong !')
+    }
   }
 
 
@@ -99,13 +107,16 @@ export default function SignIn() {
             or
           </div>
 
-          <button
-            onClick={SignInWithGoogle}
-            className="w-full border border-bluegray dark:border-gray-600 text-bluegray dark:text-gray-300 font-medium py-2 rounded-md flex items-center justify-center gap-2 hover:bg-babyblue dark:hover:bg-gray-700 transition"
-          >
-            <Google fontSize="small" />
-            Sign in with Google
-          </button>
+          <div className="w-full flex justify-center max-w-[384px]">
+            <GoogleLogin
+              onSuccess={GoogleLoginSuccess}
+              onError={() => toast.error('Failed to login with Google')}
+              size="medium"
+              shape="pill"
+              logo_alignment="center"
+              width="230px" 
+            />
+          </div>
 
           <p className="text-sm text-center text-bluegray dark:text-gray-300 mt-2">
             Don’t have an account?{' '}
