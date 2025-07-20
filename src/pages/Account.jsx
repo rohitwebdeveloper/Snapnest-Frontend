@@ -119,10 +119,10 @@ const Account = () => {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-blue-100 px-6 py-10 text-gray-800">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 px-6 py-10 text-gray-800 dark:text-gray-200">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-medium text-gray-900 border-b-2 border-blue-200 pb-4 mb-6">Account Settings</h1>
-                <div className="bg-white shadow-xl rounded-2xl p-8 space-y-8">
+                <h1 className="text-4xl font-medium text-gray-900 dark:text-gray-100 border-b-2 border-blue-200 dark:border-gray-600 pb-4 mb-6">Account Settings</h1>
+                <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 space-y-8">
                     <ProfileSection avatar={avatar} name={name} email={email} onEditClick={() => setShowUploadOverlay(true)} />
                     <SettingsActions
                         onChangePassword={() => setShowPasswordOverlay(true)}

@@ -13,7 +13,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
+  const scopes = ['openid', 'email', 'profile'].join(' ');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
@@ -40,40 +40,42 @@ export default function SignIn() {
     }
   }
 
+
   const SignInWithGoogle = (e) => {
     e.preventDefault()
-
+    const url = `https://accounts.google.com/o/oauth2/auth?client_id=${import.meta.env.VITE_OAUTH_CLIENTID}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}&scope=${scopes}&response_type=code`
+    window.location.href = url
   }
 
 
   return (
-    <div className="min-h-screen bg-babyblue flex items-center justify-center px-4">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md space-y-6">
-        <h2 className="text-2xl font-bold text-bluegray text-center">Sign In</h2>
+    <div className="min-h-screen bg-babyblue dark:bg-gray-900 flex items-center justify-center px-4">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-xl w-full max-w-md space-y-6">
+        <h2 className="text-2xl font-bold text-bluegray dark:text-gray-100 text-center">Sign In</h2>
 
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-bluegray mb-1">Email</label>
+            <label className="block text-sm text-bluegray dark:text-gray-300 mb-1">Email</label>
             <input
               type="email"
-              className="w-full border border-bluegray rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-turquoise"
+              className="w-full border border-bluegray dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-turquoise"
               placeholder="Enter your email"
               name="email"
             />
           </div>
 
           <div>
-            <label className="block text-sm text-bluegray mb-1">Password</label>
+            <label className="block text-sm text-bluegray dark:text-gray-300 mb-1">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                className="w-full border border-bluegray rounded-md px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-turquoise"
+                className="w-full border border-bluegray dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-md px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-turquoise"
                 placeholder="Enter your password"
                 name="password"
               />
               <button
                 type="button"
-                className="absolute right-3 top-2.5 text-bluegray"
+                className="absolute right-3 top-2.5 text-bluegray dark:text-gray-300"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
@@ -85,24 +87,33 @@ export default function SignIn() {
             <Link to='/forgot-password' className="text-blue-600 hover:underline">Forgot password?</Link>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-bluegray text-white hover:bg-blue-700 font-semibold py-2 rounded-md transition">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
+          >
             {loading ? 'Wait a moment...' : 'Sign In'}
           </button>
 
-          <div className="flex items-center justify-center text-sm text-bluegray">
+          <div className="flex items-center justify-center text-sm text-bluegray dark:text-gray-300">
             or
           </div>
 
-          <button onClick={SignInWithGoogle} className="w-full border border-bluegray text-bluegray font-medium py-2 rounded-md flex items-center justify-center gap-2 hover:bg-babyblue transition">
+          <button
+            onClick={SignInWithGoogle}
+            className="w-full border border-bluegray dark:border-gray-600 text-bluegray dark:text-gray-300 font-medium py-2 rounded-md flex items-center justify-center gap-2 hover:bg-babyblue dark:hover:bg-gray-700 transition"
+          >
             <Google fontSize="small" />
             Sign in with Google
           </button>
 
-          <p className="text-sm text-center text-bluegray mt-2">
-            Don’t have an account? <Link to="/sign-up" className="text-blue-600 hover:underline">Sign up</Link>
+          <p className="text-sm text-center text-bluegray dark:text-gray-300 mt-2">
+            Don’t have an account?{' '}
+            <Link to="/sign-up" className="text-blue-600 hover:underline">Sign up</Link>
           </p>
         </form>
       </div>
     </div>
+
   );
 }

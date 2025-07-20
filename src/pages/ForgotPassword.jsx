@@ -82,16 +82,16 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-50 px-4">
-      <div className="bg-white shadow-md rounded-2xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Forgot Password</h2>
+    <div className="min-h-screen flex items-center justify-center bg-blue-50 dark:bg-gray-900 px-4">
+      <div className="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-8 w-full max-w-md">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">Forgot Password</h2>
 
         {step === 1 && (
           <div>
-            <label className="block text-gray-700 mb-2">Enter your account email</label>
+            <label className="block text-gray-700 dark:text-gray-300 mb-2">Enter your account email</label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg mb-4 focus:outline-blue-500"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -101,25 +101,33 @@ const ForgotPassword = () => {
               disabled={loading}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
             >
-             {loading ? 'Sending... OTP' : 'Send OTP'} 
+              {loading ? 'Sending... OTP' : 'Send OTP'}
             </button>
           </div>
         )}
 
-
         {step === 2 && (
           <div>
-            <label className="block text-gray-700 mb-2">Enter OTP sent to your email</label>
+            <label className="block text-gray-700 dark:text-gray-300 mb-2">Enter OTP sent to your email</label>
             <input
               type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg mb-4 focus:outline-blue-500"
               placeholder="Enter OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
             />
             <div className='mb-3 flex justify-between'>
-              {time !== 0 && <p className='font-medium text-blue-500'>OTP is valid till:  {Math.floor(time / 60)} : {time % 60} (sec)</p>}
-              {time === 0 && <button className='bg-black outline-none py-1 px-2 rounded-md text-white font font-semibold' onClick={handleSendOtp} >Resend OTP</button>}
+              {time !== 0 && (
+                <p className='font-medium text-blue-500'>OTP is valid till: {Math.floor(time / 60)} : {time % 60} (sec)</p>
+              )}
+              {time === 0 && (
+                <button
+                  className='bg-black dark:bg-gray-700 outline-none py-1 px-2 rounded-md text-white font font-semibold hover:bg-gray-900 dark:hover:bg-gray-600'
+                  onClick={handleSendOtp}
+                >
+                  Resend OTP
+                </button>
+              )}
             </div>
             <button
               onClick={handleVerifyOtp}
@@ -133,17 +141,17 @@ const ForgotPassword = () => {
 
         {step === 3 && (
           <div>
-            <label className="block text-gray-700 mb-2">Enter new password</label>
+            <label className="block text-gray-700 dark:text-gray-300 mb-2">Enter new password</label>
             <input
               type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg mb-4 focus:outline-blue-500"
               placeholder="New password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
             <input
               type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-lg mb-4 focus:outline-blue-500"
               placeholder="Confirm Password"
               value={confirmpassword}
               onChange={(e) => setconfirmpassword(e.target.value)}
@@ -153,12 +161,13 @@ const ForgotPassword = () => {
               disabled={loading}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
             >
-             {loading ? 'Processing...' : 'Reset Password'}
+              {loading ? 'Processing...' : 'Reset Password'}
             </button>
           </div>
         )}
       </div>
     </div>
+
   );
 };
 

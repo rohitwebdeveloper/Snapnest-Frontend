@@ -11,18 +11,26 @@ const ThemeSwitcher = () => {
 
   const toggleTheme = () => {
     if (theme === 'light') {
-        dispatch(darkTheme());
-        document.documentElement.classList.remove('light');
+      dispatch(darkTheme());
+      document.documentElement.classList.remove('light');
     } else {
       dispatch(lightTheme());
-       document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove('dark');
     }
   };
 
   return (
-    <IconButton onClick={toggleTheme} color="inherit" style={theme==='light' ? { backgroundColor:'white'} : {backgroundColor:'khaki'}} >
-      {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
-    </IconButton>
+    <div
+      onClick={toggleTheme}
+      color="inherit"
+      style={{
+        borderRadius: '100%',
+        // backgroundColor: theme === 'light' ? '#f0f0f0' : '#333333',
+        color: theme === 'light' ? '#333333' : '#f0f0f0',
+      }}
+    >
+      {theme === 'light' ? <DarkModeIcon style={{ fontSize: '2rem', }} /> : <LightModeIcon style={{ fontSize: '2rem' }} />}
+    </div>
   );
 };
 

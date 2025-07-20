@@ -65,16 +65,16 @@ const Header = () => {
 
 
   return (
-    <header className='flex justify-between items-center px-3 py-2 bg-blue-50 relative'>
+    <header className='flex justify-between items-center px-3 py-2 bg-blue-50 dark:bg-gray-800 relative'>
       <img src="/logo.png" alt="logo" className='h-12' />
       <div
         ref={searchbarRef}
-        className={`absolute left-1/4 top-2 z-50 max-w-xl w-full flex flex-col rounded-2xl transition-all duration-300 ${resultvisible ? 'bg-white shadow-lg' : 'bg-blue-100'
+        className={`absolute left-1/4 top-2 z-50 max-w-xl w-full flex flex-col rounded-2xl transition-all duration-300 ${resultvisible ? 'bg-white dark:bg-gray-900 shadow-lg' : 'bg-blue-100 dark:bg-gray-700'
           }`}
       >
         {/* Search Input */}
         <div
-          className={`flex items-center gap-3 px-4 py-3 ${resultvisible ? 'border-b border-gray-300' : ''
+          className={`flex items-center gap-3 px-4 py-3 ${resultvisible ? 'border-b border-gray-300 dark:border-gray-600' : ''
             }`}
         >
           <SearchIcon style={{ color: 'gray' }} />
@@ -84,7 +84,7 @@ const Header = () => {
             onChange={(e) => setsearchval(e.target.value)}
             onFocus={() => setresultvisible(true)}
             placeholder="Search photos..."
-            className="w-full outline-none text-base placeholder-gray-500 text-gray-700 bg-transparent"
+            className="w-full outline-none text-base placeholder-gray-500 dark:placeholder-gray-400 text-gray-700 dark:text-gray-200 bg-transparent"
           />
         </div>
 
@@ -96,28 +96,26 @@ const Header = () => {
                 <Link to={`/photo/${item._id}`} key={i} className="group relative">
                   <img
                     src={item.url}
-                    className="h-40  object-cover rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105"
+                    className="h-40 object-cover rounded-lg shadow-sm transition-transform duration-200 group-hover:scale-105"
                     alt="search result"
                   />
                 </Link>
               ))
             ) : (
-              <p className="text-gray-500 text-center col-span-2">No results found.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center col-span-2">No results found.</p>
             )}
           </div>
         )}
       </div>
 
-      <div className='flex items-end gap-4 text-3xl text-gray-700 font-light px-3' >
+      <div className='flex items-end  gap-4 text-3xl text-gray-700 dark:text-gray-200 font-light px-3'>
         <AddIcon onClick={() => setisoverlay(!isoverlay)} style={{ fontSize: '2rem' }} />
         <NavLink to='/help-feedback'><HelpOutlineIcon style={{ fontSize: '2rem' }} /></NavLink>
         <NavLink to='/account'><AccountCircleIcon style={{ fontSize: '2rem' }} /></NavLink>
         <ThemeSwitcher />
       </div>
       {isoverlay && <AddMenu onClose={onClose} />}
-
     </header>
-
   )
 }
 

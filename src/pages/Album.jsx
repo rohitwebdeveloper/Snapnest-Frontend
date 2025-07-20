@@ -32,24 +32,31 @@ const Album = () => {
 
 
   return (
-    <main className='w-full h-[calc(100vh_-_76px)] overflow-auto  relative'    >
-      <div className='flex justify-between items-center border-b py-3 px-5 bg-white border-gray-400 sticky top-0 right-0'>
-        <h2 className='text-2xl  '>Albums</h2>
-        <div className='text-gray-600' onClick={() => setshowCreateAlbum(true)} > <AddToPhotosIcon /> Create Album</div>
+    <main className='w-full h-[calc(100vh_-_76px)] overflow-auto relative'>
+      <div className='flex justify-between items-center border-b py-3 px-5 bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 sticky top-0 right-0'>
+        <h2 className='text-2xl text-gray-900 dark:text-gray-100'>Albums</h2>
+        <div className='text-gray-600 dark:text-gray-300 cursor-pointer' onClick={() => setshowCreateAlbum(true)}>
+          <AddToPhotosIcon /> Create Album
+        </div>
       </div>
       <section className='flex flex-wrap gap-8 justify-start p-5'>
         {allAlbum.length ? (
           allAlbum?.map((albumitem, i) => {
-            return <Link key={i} to={`/album/${albumitem.albumname}/${albumitem._id}`} > <AlbumCard albumitem={albumitem} key={i} index={i} /> </Link>
-          })) : (
+            return (
+              <Link key={i} to={`/album/${albumitem.albumname}/${albumitem._id}`}>
+                <AlbumCard albumitem={albumitem} key={i} index={i} />
+              </Link>
+            );
+          })
+        ) : (
           <NoData message='No Albums !' />
         )}
       </section>
-      {!!showCreateAlbum &&
+      {!!showCreateAlbum && (
         <Overlay onClose={closeCreateAlbum}>
           <CreateAlbum onCreate={onCreateAlbum} />
         </Overlay>
-      }
+      )}
     </main>
 
   )

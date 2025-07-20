@@ -31,25 +31,31 @@ const ImageDetail = () => {
 
   const onClose = () => setinfovisible(false)
 
-    if (isPending) return <Loader/>
-    if (isError) return <Error errorMessage={error?.message || 'Internal Server Error'}/>
+  if (isPending) return <Loader />
+  if (isError) return <Error errorMessage={error?.message || 'Internal Server Error'} />
 
 
   return (
-    <main className='bg-gray-900 h-screen flex'>
-      <div className='w-full' >
-        <div className='flex justify-between px-4 text-white py-6 mb-10'>
+    <main className='bg-gray-900 dark:bg-black h-screen flex'>
+      <div className='w-full'>
+        <div className='flex justify-between px-4 text-white dark:text-gray-100 py-6 mb-10'>
           <KeyboardBackspaceOutlinedIcon style={{ fontSize: '25px' }} onClick={() => navigate(-1)} />
-          <div className='flex gap-5 hover:cursor-pointer '>
+          <div className='flex gap-5 hover:cursor-pointer'>
             <ShareOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setshareVisible(!shareVisible)} />
             <InfoOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setinfovisible(!infovisible)} />
-            {photo?.isFavourite ? <StarIcon style={{ fontSize: '25px' }} onClick={() => removeFromFavourite(photoId)} /> : <StarBorderOutlinedIcon style={{ fontSize: '25px' }} onClick={() => addToFavourite(photoId)} />}
+            {photo?.isFavourite ? (
+              <StarIcon style={{ fontSize: '25px' }} onClick={() => removeFromFavourite(photoId)} />
+            ) : (
+              <StarBorderOutlinedIcon style={{ fontSize: '25px' }} onClick={() => addToFavourite(photoId)} />
+            )}
             <DeleteForeverOutlinedIcon style={{ fontSize: '25px' }} onClick={() => deletePhoto(photoId)} />
             <MoreVertOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setdetailmenuVisible(!detailmenuVisible)} />
           </div>
         </div>
-        <figure className=' bg-transparent flex justify-center '>
-          <img src={photo?.url} alt="Photo"
+        <figure className='bg-transparent flex justify-center'>
+          <img
+            src={photo?.url}
+            alt="Photo"
             className='max-h-[70vh] rounded-sm'
           />
         </figure>

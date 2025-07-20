@@ -19,20 +19,21 @@ export default function AddMenu({ onClose }) {
   }
 
   return (
-    <div className="bg-blue-50 rounded-lg shadow-lg w-fit absolute top-20 right-2 z-50">
-      <CloseIcon onClick={onClose} style={{ position: 'absolute', top: '8px', right: '12px', fontSize: '20px' }} />
-      <ul className="text-base text-bluegray font-medium mt-10">
-        <li className="px-5 py-3 rounded-md hover:bg-blue-100  hover:text-black cursor-pointer transition group">
-          <label className="cursor-pointer flex items-center  gap-4 ">
+    <div className="bg-blue-50 dark:bg-gray-800 rounded-lg shadow-lg w-fit absolute top-20 right-2 z-50">
+      <CloseIcon
+        onClick={onClose}
+        style={{ position: 'absolute', top: '8px', right: '12px', fontSize: '20px' }}
+        className="text-bluegray dark:text-gray-300"
+      />
+      <ul className="text-base text-bluegray dark:text-gray-200 font-medium mt-10">
+        <li className="px-5 py-3 rounded-md hover:bg-blue-100 dark:hover:bg-gray-700 hover:text-black dark:hover:text-white cursor-pointer transition group">
+          <label className="cursor-pointer flex items-center gap-4">
             <input type="file" accept="image/*" className="hidden" onChange={fileuploadchange} />
-            <AddPhotoAlternateIcon /> Add Photo
+            <AddPhotoAlternateIcon className="text-bluegray dark:text-gray-300" /> Add Photo
           </label>
         </li>
-
-        {/* <li className="px-5 py-3 rounded-md  flex items-center gap-4 hover:bg-blue-100 hover:text-black cursor-pointer transition">
-          <CollectionsBookmarkIcon />  Create Album
-        </li> */}
       </ul>
     </div>
+
   );
 }
