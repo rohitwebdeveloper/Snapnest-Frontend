@@ -29,7 +29,7 @@ const ThemeSwitcher = () => {
         color: theme === 'light' ? '#333333' : '#f0f0f0',
       }}
     >
-      {theme === 'light' ? <DarkModeIcon style={{ fontSize: '2rem', }} /> : <LightModeIcon style={{ fontSize: '2rem' }} />}
+      {theme === 'light' ? <DarkModeIcon style={{ fontSize: '2em', }} /> : <LightModeIcon style={{ fontSize: '2em' }} />}
     </div>
   );
 };

@@ -17,9 +17,9 @@ const ShareOption = ({ imageUrl, onClose }) => {
 
 
   return (
-    <div className="absolute  inset-0 m-auto h-fit w-full  max-w-lg bg-white  rounded-xl shadow-lg z-50 p-6">
+    <div className="absolute  inset-0 m-auto h-fit w-[calc(100%-50px)] md:w-full  max-w-lg bg-white  rounded-xl shadow-lg z-50 p-3 sm:p-5 md:p-6">
       <div className="flex justify-between items-center border-b-[2px] border-gray-500 pb-2 mb-3">
-        <h2 className="text-xl font-medium text-gray-700">Share Image</h2>
+        <h2 className="text-lg md:text-xl font-medium text-gray-700">Share Image</h2>
         <button onClick={() => onClose(false)}>
           <CloseIcon fontSize="small" className="text-gray-600 hover:text-gray-800" />
         </button>

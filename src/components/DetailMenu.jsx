@@ -68,8 +68,8 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
 
   return (
     <>
-      <ul className='rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 w-52 font-medium absolute right-1 top-20 '>
-        <li className='p-3 text-right'>
+      <ul className='rounded-md bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-xs sm:text-sm md:text-base w-32 sm:w-40 md:w-48 font-medium absolute right-1 top-20 '>
+        <li className='px-3 pt-3 text-right'>
           <CloseIcon className='hover:bg-gray-200 dark:hover:bg-gray-700' onClick={() => setdetailmenuVisible(false)} />
         </li>
         <li onClick={() => setalbumOverlayvisible(true)} className='p-3 hover:bg-blue-50 dark:hover:bg-gray-700'>Add to album</li>
@@ -81,7 +81,7 @@ const DetailMenu = ({ setdetailmenuVisible, photoId, photoUrl }) => {
       {/* Select album overlay */}
       {!!albumOverlayvisible &&
         <Overlay title='Add to' onClose={closeAlbumOverlay}>
-          <section className='flex flex-col items-start overflow-auto h-56'>
+          <section className='flex flex-col items-start overflow-auto h-56 '>
             {isPending && <h2 className='text-center font-medium text-gray-800 dark:text-gray-200'>Just a moment...</h2>}
             {isError && <h2 className='text-center font-medium text-gray-800 dark:text-gray-200'>Failed to get albums</h2>}
             {allAlbums.lenght === 0 && <h2 className='text-center font-medium text-gray-800 dark:text-gray-200'>No Albums !</h2>}

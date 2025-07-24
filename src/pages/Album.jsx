@@ -33,13 +33,13 @@ const Album = () => {
 
   return (
     <main className='w-full h-[calc(100vh_-_76px)] overflow-auto relative'>
-      <div className='flex justify-between items-center border-b py-3 px-5 bg-white dark:bg-gray-800 border-gray-400 dark:border-gray-600 sticky top-0 right-0'>
-        <h2 className='text-2xl text-gray-900 dark:text-gray-100'>Albums</h2>
+      <div className='flex justify-between items-center border-b py-3 px-5  z-20 bg-white dark:bg-gray-900 border-gray-400 dark:border-gray-600 sticky top-0 right-0'>
+        <h2 className='text-2xl text-gray-900 dark:text-gray-100  '>Albums</h2>
         <div className='text-gray-600 dark:text-gray-300 cursor-pointer' onClick={() => setshowCreateAlbum(true)}>
           <AddToPhotosIcon /> Create Album
         </div>
       </div>
-      <section className='flex flex-wrap gap-8 justify-start p-5'>
+      <section className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6  gap-4 md:gap-8 p-5 overflow-auto'>
         {allAlbum.length ? (
           allAlbum?.map((albumitem, i) => {
             return (

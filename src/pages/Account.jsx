@@ -12,6 +12,7 @@ import SettingsActions from '../components/account/SettingsActions';
 import UploadImageOverlay from '../components/account/UploadImageOverlay';
 import ChangePasswordOverlay from '../components/account/ChangePasswordOverlay';
 import DeleteAccountOverlay from '../components/account/DeleteAccountOverlay';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 const Account = () => {
     const { name, email, avatar } = useSelector((state) => state.auth.user);
@@ -119,10 +120,16 @@ const Account = () => {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 px-6 py-10 text-gray-800 dark:text-gray-200">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 via-blue-50 to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 px-4 md:px-6 py-7 md:py-10 text-gray-800 dark:text-gray-200">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl font-medium text-gray-900 dark:text-gray-100 border-b-2 border-blue-200 dark:border-gray-600 pb-4 mb-6">Account Settings</h1>
-                <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8 space-y-8">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="mb-4 inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold hover:underline"
+                >
+                    <KeyboardBackspaceIcon/> <span className='text-sm sm:text-base'>Go Back</span>
+                </button>
+                <h1 className=" text-3xl md:text-4xl font-medium text-gray-900 dark:text-gray-100 border-b-2 border-blue-200 dark:border-gray-600 pb-4 mb-6">Account Settings</h1>
+                <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-4 sm:p-6 md:p-8 space-y-8">
                     <ProfileSection avatar={avatar} name={name} email={email} onEditClick={() => setShowUploadOverlay(true)} />
                     <SettingsActions
                         onChangePassword={() => setShowPasswordOverlay(true)}

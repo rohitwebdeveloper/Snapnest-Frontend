@@ -107,7 +107,7 @@ export const useAddToScreenshot = () => {
 
 
 
-export const useUploadPhoto = (onClose, dispatch, add) => {
+export const useUploadPhoto = (dispatch, add) => {
     const queryClient = useQueryClient()
 
     return useMutation({
@@ -128,7 +128,6 @@ export const useUploadPhoto = (onClose, dispatch, add) => {
         onSuccess: (newPhoto) => {
             toast.success('Uploaded Successfully')
             dispatch(add(newPhoto))
-            onClose()
             queryClient.invalidateQueries(['allphotos'])
         },
         onError: (error) => {

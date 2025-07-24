@@ -10,7 +10,7 @@ const DeleteAccountOverlay = ({ open, onClose, onConfirmDelete, loading }) => {
         </p>
         <button
           disabled={loading}
-          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
+          className="w-full bg-red-600 text-sm sm:text-base text-white py-2 rounded hover:bg-red-700 transition"
           onClick={onConfirmDelete}
         >
           {loading ? 'Deleting' : 'Confirm Delete'}

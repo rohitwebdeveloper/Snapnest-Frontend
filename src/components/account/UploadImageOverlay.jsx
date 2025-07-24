@@ -7,13 +7,13 @@ const UploadImageOverlay = ({ open, onClose, onFileChange, onSave, loading }) =>
       <div className="space-y-4 px-4">
         <input
           type="file"
-          className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded px-3 py-2"
+          className="w-full border border-gray-300 dark:border-gray-600 bg-white text-sm sm:text-base dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded px-3 py-2"
           onChange={onFileChange}
         />
         <button
           onClick={onSave}
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-sm sm:text-base text-white py-2 rounded hover:bg-blue-700 transition"
         >
           Save
         </button>

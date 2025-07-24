@@ -14,9 +14,9 @@ const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
           className="cursor-pointer text-black dark:text-gray-100"
         />
       )}
-      <h2 className="text-2xl font-medium mt-4 mb-6 text-black dark:text-gray-100">{title}</h2>
+      <h2 className="text-xl md:text-2xl font-medium mt-4 mb-6 text-black dark:text-gray-100">{title}</h2>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-3 sm:gap-6 md:gap-8">
         {photos.length !== 0 ? (
           photos.map((item, i) => {
             const photo = item.photo || item;
@@ -31,15 +31,15 @@ const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
               : '';
 
             return (
-              <Link key={i} to={`/photo/${id}`}>
+              <Link key={i} to={`/photo/${id}`} className='mb-5' >
                 {date && (
                   <div className="font-medium text-gray-700 dark:text-gray-300 mb-1">{date}</div>
                 )}
-                <div className="relative w-fit max-h-52 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition hover:scale-105">
+                <div className="relative w-fit max-h-52 mb bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition hover:scale-105">
                   <img
                     src={url}
                     alt="img"
-                    className="max-h-52 object-cover"
+                    className="min-h-[120px] max-h-32 sm:min-h-36  md:min-h-40  lg:min-h-44 xl:min-h-48 xl:max-h-52 object-cover"
                   />
                 </div>
               </Link>

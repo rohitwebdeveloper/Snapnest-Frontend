@@ -16,7 +16,7 @@ const Places = () => {
 
 
     return (
-        <main className="px-6 py-5 bg-blue-50 dark:bg-gray-900 min-h-screen">
+        <main className="px-3 md:px-6 py-5 bg-blue-50 dark:bg-gray-900 min-h-screen">
             {/* Header */}
             <div className="flex items-center gap-4 mb-6">
                 <KeyboardBackspaceOutlinedIcon

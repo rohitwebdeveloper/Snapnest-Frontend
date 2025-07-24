@@ -14,7 +14,7 @@ import { usePhotoDetails } from '../hooks/photo/usePhotoDetails';
 import { useAddToFavourite, useDeletePhoto, useRemoveFromFavourite } from '../hooks/photo/photoMutation';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
-
+import ClickOutsideWrapper from '../components/ClickOutsideWrapper';
 
 const ImageDetail = () => {
 
@@ -40,7 +40,7 @@ const ImageDetail = () => {
       <div className='w-full'>
         <div className='flex justify-between px-4 text-white dark:text-gray-100 py-6 mb-10'>
           <KeyboardBackspaceOutlinedIcon style={{ fontSize: '25px' }} onClick={() => navigate(-1)} />
-          <div className='flex gap-5 hover:cursor-pointer'>
+          <div className='flex gap-3 sm:gap-5 hover:cursor-pointer'>
             <ShareOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setshareVisible(!shareVisible)} />
             <InfoOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setinfovisible(!infovisible)} />
             {photo?.isFavourite ? (
@@ -52,7 +52,7 @@ const ImageDetail = () => {
             <MoreVertOutlinedIcon style={{ fontSize: '25px' }} onClick={() => setdetailmenuVisible(!detailmenuVisible)} />
           </div>
         </div>
-        <figure className='bg-transparent flex justify-center'>
+        <figure className='bg-transparent mx-6 sm:mx-15 md:mx-20 flex justify-center'>
           <img
             src={photo?.url}
             alt="Photo"
@@ -61,11 +61,11 @@ const ImageDetail = () => {
         </figure>
       </div>
 
-      {infovisible && <PhotoInfoSidebar photo={photo} onClose={onClose} />}
+      <ClickOutsideWrapper visible={infovisible} setvisible={setinfovisible} > <PhotoInfoSidebar photo={photo} onClose={onClose} /> </ClickOutsideWrapper>
 
-      {detailmenuVisible && <DetailMenu setdetailmenuVisible={setdetailmenuVisible} photoId={photoId} photoUrl={photo.url} />}
+      <ClickOutsideWrapper visible={detailmenuVisible} setvisible={setdetailmenuVisible} > <DetailMenu setdetailmenuVisible={setdetailmenuVisible} photoId={photoId} photoUrl={photo.url} /> </ClickOutsideWrapper>
 
-      {shareVisible && <ShareOption imageUrl={photo?.url} onClose={setshareVisible} />}
+      <ClickOutsideWrapper visible={shareVisible} setvisible={setshareVisible} > <ShareOption imageUrl={photo?.url} onClose={setshareVisible} /> </ClickOutsideWrapper>
 
     </main>
   )

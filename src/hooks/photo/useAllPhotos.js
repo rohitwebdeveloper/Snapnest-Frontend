@@ -1,15 +1,16 @@
 import { api } from "../../api/apiConfig";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 
 export const useAllPhotos = () => {
-    return useQuery({
+    return useInfiniteQuery({
         queryKey: ['allphotos'],
-        queryFn: async () => {
-            const response = await api.get('/photo/');
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await api.get(`/photo/all?page=${pageParam}&limit=2`);
+            // console.log(response)
             if (response.status !== 200) throw new Error('Failed to fetch photos');
 
-            const groupByDate = response.data.reduce((acc, item) => {
+            const groupByDate = response.data.photos.reduce((acc, item) => {
                 const date = item.createdAt.slice(0, 10);
                 if (!acc[date]) acc[date] = [];
                 acc[date].push(item);
@@ -21,8 +22,13 @@ export const useAllPhotos = () => {
                 items,
             }));
 
-            return result;
+            return {
+                data: result,
+                nextPage: response.data.hasMore ? pageParam + 1 : undefined
+            }
         },
-        retry:false
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+        // retry:false
     });
 }
+
