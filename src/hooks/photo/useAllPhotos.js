@@ -6,7 +6,7 @@ export const useAllPhotos = () => {
     return useInfiniteQuery({
         queryKey: ['allphotos'],
         queryFn: async ({ pageParam = 1 }) => {
-            const response = await api.get(`/photo/all?page=${pageParam}&limit=2`);
+            const response = await api.get(`/photo/all?page=${pageParam}&limit=10`);
             // console.log(response)
             if (response.status !== 200) throw new Error('Failed to fetch photos');
 

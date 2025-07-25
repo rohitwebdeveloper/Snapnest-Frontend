@@ -39,7 +39,7 @@ const Home = () => {
                     flatData.map((group, i) => (
                         <div key={i} className='flex flex-col gap-4 font-medium text-base md:text-lg'>
 
-                            <h2>{new Date(group.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short' })}</h2>
+                            <h2 className='dark:text-gray-200'>{new Date(group.date).toLocaleDateString('en-GB', { weekday: 'short', day: '2-digit', month: 'short', year:'numeric' })}</h2>
 
                             <div className='flex flex-wrap gap-4'>
                                 {group?.items?.map((photo) => (

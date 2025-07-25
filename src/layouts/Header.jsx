@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Link, NavLink } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import ThemeSwitcher from '../components/ThemeSwitcher';
@@ -14,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useUploadPhoto } from '../hooks/photo/photoMutation';
 
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ toggleSidebar, isSidebarOpen }) => {
   const [searchbarVisible, setsearchbarVisible] = useState(false);
   const [resultvisible, setresultvisible] = useState(false)
   const [searchval, setsearchval] = useState('')
@@ -80,7 +81,9 @@ const Header = ({ toggleSidebar }) => {
       <div className='flex items-center gap-3'>
         {/* Hamburger visible below md */}
         <span className='sm:hidden'>
-          <MenuRoundedIcon onClick={toggleSidebar} className='md:hidden text-gray-700 dark:text-gray-200 cursor-pointer' style={{ fontSize: '2rem' }} />
+          {isSidebarOpen ? <CloseRoundedIcon onClick={toggleSidebar} className='md:hidden text-gray-700 dark:text-gray-200 cursor-pointer' style={{ fontSize: '2rem' }} /> :
+            <MenuRoundedIcon onClick={toggleSidebar} className='md:hidden text-gray-700 dark:text-gray-200 cursor-pointer' style={{ fontSize: '2rem' }} />
+          }
         </span>
         <img src="/logo.png" alt="logo" className='h-10 md:h-12 rounded-md dark:invert' />
       </div>
@@ -138,7 +141,7 @@ const Header = ({ toggleSidebar }) => {
         {/* Action Icons */}
         <label className="cursor-pointer flex items-center gap-4">
           <input type="file" accept="image/*" className="hidden" onChange={fileuploadchange} />
-          <AddIcon style={{fontSize:'2em'}} className="text-bluegray dark:text-gray-300" />
+          <AddIcon style={{ fontSize: '2em' }} className="text-bluegray dark:text-gray-300" />
         </label>
         <NavLink to='/help-feedback' className='hidden sm:block'><HelpOutlineIcon style={{ fontSize: '2em' }} /></NavLink>
         <NavLink to='/account' className='hidden sm:block' ><AccountCircleIcon style={{ fontSize: '2em' }} /></NavLink>

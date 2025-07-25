@@ -35,7 +35,7 @@ export default function SignUp() {
       const response = await api.post('/auth/sign-up', userdata)
 
       if (response.status === 201) {
-        toast.success("Signed In successfully")
+        toast.success("Signed Up successfully")
         dispatch(signUp(response.data.user))
         navigate('/')
       }

@@ -54,7 +54,7 @@ const ImageDetail = () => {
         </div>
         <figure className='bg-transparent mx-6 sm:mx-15 md:mx-20 flex justify-center'>
           <img
-            src={photo?.url}
+            src={photo?.url.replace('/upload/', '/upload/w_600,q_auto,f_auto/')}
             alt="Photo"
             className='max-h-[70vh] rounded-sm'
           />

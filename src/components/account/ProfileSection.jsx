@@ -5,7 +5,7 @@ const ProfileSection = ({ avatar, name, email, onEditClick }) => {
     <div className="flex items-center space-x-4 md:space-x-6">
       <div className="relative w-24 h-24 md:w-32 md:h-32 aspect-square rounded-full bg-blue-600 text-white flex items-center justify-center text-4xl font-semibold shadow-md">
         {avatar ? (
-          <img src={avatar} alt="User" className="rounded-full w-full h-full  object-cover" />
+          <img src={avatar.replace('/upload/', '/upload/w_300,q_auto,f_auto/')} alt="User" className="rounded-full w-full h-full  object-cover" />
         ) : (
           name.charAt(0).toUpperCase()
         )}

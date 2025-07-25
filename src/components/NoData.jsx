@@ -13,7 +13,7 @@ const NoData = ({ message = "No Data Found", type = "image" }) => {
           <FolderOffIcon style={{ fontSize: 70, color: '#3b82f6' }} />
         )}
       </div>
-      <h2 className="text-2xl font-semibold mt-4">{message}</h2>
+      <h2 className="text-xl sm:text-2xl font-semibold mt-4">{message}</h2>
       <p className="text-gray-500 dark:text-gray-400 mt-2">
         Try adding some {type === 'image' ? 'photos' : 'items'} to see them here.
       </p>

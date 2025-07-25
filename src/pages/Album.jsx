@@ -39,19 +39,19 @@ const Album = () => {
           <AddToPhotosIcon /> Create Album
         </div>
       </div>
-      <section className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6  gap-4 md:gap-8 p-5 overflow-auto'>
-        {allAlbum.length ? (
-          allAlbum?.map((albumitem, i) => {
+      {allAlbum.length ? (
+        <section className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6  gap-4 md:gap-8 p-5 overflow-auto'>
+          {allAlbum?.map((albumitem, i) => {
             return (
               <Link key={i} to={`/album/${albumitem.albumname}/${albumitem._id}`}>
                 <AlbumCard albumitem={albumitem} key={i} index={i} />
               </Link>
             );
-          })
-        ) : (
-          <NoData message='No Albums !' />
-        )}
-      </section>
+          })}
+        </section>
+      ) : (
+        <NoData message='No Albums !' />
+      )}
       {!!showCreateAlbum && (
         <Overlay onClose={closeCreateAlbum}>
           <CreateAlbum onCreate={onCreateAlbum} />

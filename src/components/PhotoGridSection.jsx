@@ -37,7 +37,7 @@ const PhotoGridSection = ({ title, photos = [], backbutton = true }) => {
                 )}
                 <div className="relative w-fit max-h-52 mb bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition hover:scale-105">
                   <img
-                    src={url}
+                    src={url.replace('/upload/', '/upload/w_350,q_auto,f_auto/')}
                     alt="img"
                     className="min-h-[120px] max-h-32 sm:min-h-36  md:min-h-40  lg:min-h-44 xl:min-h-48 xl:max-h-52 object-cover"
                   />

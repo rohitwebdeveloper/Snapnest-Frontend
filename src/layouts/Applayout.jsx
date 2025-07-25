@@ -10,7 +10,7 @@ const Applayout = () => {
 
     return (
         <>
-            <Header toggleSidebar={toggleSidebar} />
+            <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
             <div className='flex gap-4 bg-white dark:bg-gray-900'>
                 <SideBar isSidebarOpen={isSidebarOpen} />
                 <Outlet />
