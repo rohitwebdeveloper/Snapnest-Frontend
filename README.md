@@ -8,7 +8,7 @@ A beautifully designed photo management and gallery application built using **Re
 
 ## 🚀 Live Demo
 
-🔗 [Click here to view the live app](https://your-deployed-frontend-link.com)
+🔗 [Click here to view the live app](https://snapnest-frontend-tau.vercel.app/)
 
 ---
 
@@ -16,8 +16,8 @@ A beautifully designed photo management and gallery application built using **Re
 
 > Use the following credentials to log in and explore the app:
 
-**User Email**: `testuser@example.com`  
-**Password**: `test1234`
+**User Email**: `test@gmail.com`  
+**Password**: `Test@123`
 
 ---
 
