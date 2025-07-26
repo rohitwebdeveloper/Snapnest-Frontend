@@ -2,12 +2,15 @@
 
 A beautifully designed photo management and gallery application built using **React**, **Tailwind CSS**, and **React Query** with **Infinite Scrolling** support. Users can upload, view, search, and manage their photo collection effortlessly.
 
-![App Screenshot](https://your-deployed-app-image-link.com/screenshot.png)
+## Screenshots
+![Alt text](https://res.cloudinary.com/dqqtkqpfy/image/upload/v1753526880/SnapNest_-_Google_Chrome_7_25_2025_5_37_44_PM_cubd3s.png)
 
 ---
 
 ## 🚀 Live Demo
 
+> ⚠️ **NOTE:** This site is hosted on a free Render instance. The first API request may take **50–60 seconds** due to server cold start, as the platform puts the backend to sleep when inactive.
+> 
 🔗 [Click here to view the live app](https://snapnest-frontend-tau.vercel.app/)
 
 ---
